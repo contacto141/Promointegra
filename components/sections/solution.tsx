@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-
 export default function SolutionSection() {
   return (
     <section className="py-20 px-4 bg-white">
