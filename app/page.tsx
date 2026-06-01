@@ -51,7 +51,7 @@ export default function ProposalPage() {
       </nav>
 
       {/* Hero Section */}
-      <section ref={(el) => (sectionRefs.current[0] = el)} className="min-h-screen flex items-center justify-center px-6 py-20 md:py-0">
+      <section ref={(el) => { if (el) sectionRefs.current[0] = el; }} className="min-h-screen flex items-center justify-center px-6 py-20 md:py-0">
         <div className="max-w-4xl text-center animate-fade-in">
           <div className="mb-8">
             <div className="inline-block px-4 py-2 border border-[#F96B09] rounded-full mb-6">
@@ -94,7 +94,7 @@ export default function ProposalPage() {
       </section>
 
       {/* Services Section */}
-      <section ref={(el) => (sectionRefs.current[1] = el)} className="min-h-screen flex items-center py-20">
+      <section ref={(el) => { if (el) sectionRefs.current[1] = el; }} className="min-h-screen flex items-center py-20">
         <div className="w-full max-w-6xl mx-auto px-6">
           <div className="mb-16">
             <span className="text-[#F96B09] text-sm uppercase tracking-widest">01</span>
@@ -130,7 +130,7 @@ export default function ProposalPage() {
       </section>
 
       {/* Options Section */}
-      <section ref={(el) => (sectionRefs.current[2] = el)} className="min-h-screen flex items-center py-20">
+      <section ref={(el) => { if (el) sectionRefs.current[2] = el; }} className="min-h-screen flex items-center py-20">
         <div className="w-full max-w-6xl mx-auto px-6">
           <div className="mb-16">
             <span className="text-[#F96B09] text-sm uppercase tracking-widest">02</span>
@@ -275,7 +275,7 @@ export default function ProposalPage() {
       </section>
 
       {/* Roadmap Section */}
-      <section ref={(el) => (sectionRefs.current[3] = el)} className="min-h-screen flex items-center py-20">
+      <section ref={(el) => { if (el) sectionRefs.current[3] = el; }} className="min-h-screen flex items-center py-20">
         <div className="w-full max-w-6xl mx-auto px-6">
           <div className="mb-16">
             <span className="text-[#F96B09] text-sm uppercase tracking-widest">03</span>
@@ -338,7 +338,7 @@ export default function ProposalPage() {
       </section>
 
       {/* Investment Section */}
-      <section ref={(el) => (sectionRefs.current[4] = el)} className="min-h-screen flex items-center py-20">
+      <section ref={(el) => { if (el) sectionRefs.current[4] = el; }} className="min-h-screen flex items-center py-20">
         <div className="w-full max-w-6xl mx-auto px-6">
           <div className="mb-16">
             <span className="text-[#F96B09] text-sm uppercase tracking-widest">04</span>
