@@ -220,7 +220,7 @@ export default function ProposalPage() {
                 <div className="text-xs font-semibold uppercase text-[#8a857f] mb-3">Consideraciones</div>
                 <div className="text-xs text-[#8a857f]">• Más caro que Opción 1</div>
                 <div className="text-xs text-[#8a857f]">• Curva de aprendizaje Airtable</div>
-                <div className="text-xs text-[#8a857f]">• Sigue siendo "manual" en puntos</div>
+                <div className="text-xs text-[#8a857f]">• Sigue siendo &quot;manual&quot; en puntos</div>
               </div>
             </div>
 
