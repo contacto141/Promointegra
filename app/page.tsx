@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function ProposalPage() {
   const [activeSection, setActiveSection] = useState(0);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
