@@ -146,7 +146,16 @@ const ROADMAP = [
 export default function ProposalPage() {
   const [activeSection, setActiveSection] = useState(0);
   const [expandedPlan, setExpandedPlan] = useState<string | null>('iniciar');
+  const [selectedInvestmentPlan, setSelectedInvestmentPlan] = useState<string>('iniciar');
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  const calculateROI = (planId: string) => {
+    const plan = PLANS.find(p => p.id === planId);
+    if (!plan) return 0;
+    const threeMontsCost = plan.price * 3;
+    const expectedRevenue = 94500; // 15 deals × $6,300
+    return Math.round(expectedRevenue / threeMontsCost);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -425,10 +434,13 @@ export default function ProposalPage() {
             {PLANS.map((plan) => (
               <div
                 key={plan.id}
-                className={`p-6 rounded-xl border ${
-                  plan.badge === 'RECOMENDADA'
-                    ? 'border-[#F96B09] bg-[rgba(249,107,9,0.1)]'
-                    : 'border-[rgba(249,107,9,0.2)] bg-[rgba(249,107,9,0.05)]'
+                onClick={() => setSelectedInvestmentPlan(plan.id)}
+                className={`cursor-pointer p-6 rounded-xl border-2 transition-all ${
+                  selectedInvestmentPlan === plan.id
+                    ? 'border-[#F96B09] bg-[rgba(249,107,9,0.15)] ring-2 ring-[#F96B09]'
+                    : plan.badge === 'RECOMENDADA'
+                    ? 'border-[#F96B09] bg-[rgba(249,107,9,0.1)] hover:bg-[rgba(249,107,9,0.12)]'
+                    : 'border-[rgba(249,107,9,0.2)] bg-[rgba(249,107,9,0.05)] hover:border-[#F96B09]'
                 }`}
               >
                 <h3 className="font-semibold mb-4 text-sm">{plan.name}</h3>
@@ -436,13 +448,19 @@ export default function ProposalPage() {
                   <div className="text-2xl font-bold text-[#F96B09]">${plan.price}/mes</div>
                   <div className="text-sm text-[#8a857f]">${plan.price * 3} (3 meses)</div>
                 </div>
+                {selectedInvestmentPlan === plan.id && (
+                  <div className="pt-4 border-t border-[rgba(249,107,9,0.3)]">
+                    <div className="text-xs text-[#F96B09] font-bold uppercase">ROI con este plan</div>
+                    <div className="text-2xl font-bold text-[#F96B09] mt-2">{calculateROI(plan.id)}x</div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
           <div className="p-8 border border-[rgba(249,107,9,0.2)] rounded-xl bg-[rgba(249,107,9,0.05)] mb-12">
             <h3 className="font-serif text-2xl mb-6">Proyección ROI</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div>
                 <div className="text-sm text-[#8a857f] uppercase mb-3">Supuesto</div>
                 <div className="text-sm space-y-1">
@@ -452,14 +470,25 @@ export default function ProposalPage() {
                 </div>
               </div>
               <div>
+                <div className="text-sm text-[#8a857f] uppercase mb-3">Plan Seleccionado</div>
+                <div className="text-lg font-semibold text-[#F96B09]">
+                  {PLANS.find(p => p.id === selectedInvestmentPlan)?.name}
+                </div>
+                <div className="text-sm text-[#8a857f] mt-2">
+                  ${PLANS.find(p => p.id === selectedInvestmentPlan)?.price}/mes
+                  <br />
+                  ${PLANS.find(p => p.id === selectedInvestmentPlan)?.price ? PLANS.find(p => p.id === selectedInvestmentPlan)!.price * 3 : 0} (3 meses)
+                </div>
+              </div>
+              <div>
                 <div className="text-sm text-[#8a857f] uppercase mb-3">Ingresos Esperados</div>
                 <div className="text-3xl font-bold text-[#F96B09]">$94,500</div>
                 <div className="text-sm text-[#8a857f]">(15 deals × $6,300)</div>
               </div>
-              <div>
-                <div className="text-sm text-[#8a857f] uppercase mb-3">ROI Esperado</div>
-                <div className="text-3xl font-bold text-[#F96B09]">72x</div>
-                <div className="text-sm text-[#8a857f]">(con Opción 1)</div>
+              <div className="bg-[rgba(249,107,9,0.2)] p-4 rounded-lg border border-[#F96B09]">
+                <div className="text-sm text-[#8a857f] uppercase mb-3">ROI con este plan</div>
+                <div className="text-4xl font-bold text-[#F96B09]">{calculateROI(selectedInvestmentPlan)}x</div>
+                <div className="text-xs text-[#F96B09] mt-2">Retorno en 12 semanas</div>
               </div>
             </div>
           </div>
