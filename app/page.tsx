@@ -289,7 +289,7 @@ export default function ProposalPage() {
               <div
                 key={plan.id}
                 onClick={() => setExpandedPlan(expandedPlan === plan.id ? null : plan.id)}
-                className={`cursor-pointer p-8 rounded-2xl border-2 transition-all ${
+                className={`cursor-pointer relative p-8 rounded-2xl border-2 transition-all ${
                   plan.badge === 'RECOMENDADA'
                     ? 'border-[#F96B09] bg-[rgba(249,107,9,0.1)] hover:bg-[rgba(249,107,9,0.15)]'
                     : 'border-[rgba(249,107,9,0.2)] bg-[rgba(249,107,9,0.05)] hover:border-[#F96B09] hover:bg-[rgba(249,107,9,0.1)]'
