@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promointegra — Máquina comercial B2B</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #111111;
+  --dark: #0a0a0a;
+  --off: #f5f2ee;
+  --primary: #F96B09;
+  --primary-light: #ff8533;
+  --muted: #8a857f;
+  --muted-dark: #5a5550;
+  --green: #52b788;
+  --red: #c1121f;
+  --border: rgba(249, 107, 9, 0.2);
+  --border-strong: rgba(249, 107, 9, 0.4);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: var(--off);
+  overflow-x: hidden;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* SIDE NAV */
+.sidenav {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.sidenav a {
+  width: 8px; height: 8px;
+  background: rgba(249, 107, 9, 0.3);
+  border-radius: 50%;
+  display: block;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+.sidenav a:hover { background: var(--primary); transform: scale(1.5); }
+.sidenav a.active { background: var(--primary); width: 8px; height: 24px; border-radius: 4px; }
+.sidenav a span {
+  position: absolute;
+  right: 20px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  background: var(--dark);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+}
+.sidenav a:hover span { opacity: 1; }
+
+@media (max-width: 900px) { .sidenav { display: none; } }
+
+/* SECTION BASE */
+section {
+  position: relative;
+  z-index: 2;
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) { section { padding: 4rem 1.25rem; } }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 2rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 20%; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(249, 107, 9, 0.15), transparent 70%);
+  filter: blur(60px);
+  z-index: -1;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  width: 30px; height: 1px;
+  background: var(--primary);
+  display: inline-block;
+}
+
+.brand-mark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 12vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.hero-tag {
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.hero-statement {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px, 2.5vw, 28px);
+  color: var(--off);
+  max-width: 700px;
+  line-height: 1.5;
+  margin-bottom: 3rem;
+  font-weight: 500;
+}
+
+.hero-statement em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  max-width: 800px;
+}
+
+.meta-item {
+  text-align: left;
+}
+.meta-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+.meta-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  color: var(--off);
+  font-weight: 600;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+/* SECTION HEADERS */
+.section-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--primary);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--off);
+}
+
+.section-title em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.section-intro {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 680px;
+  margin-bottom: 3rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.gold-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--primary);
+  margin: 2rem 0;
+}
+
+/* CARDS */
+.split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+@media (max-width: 768px) { .split-grid { grid-template-columns: 1fr; } }
+
+.split-card {
+  padding: 2.5rem;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(249, 107, 9, 0.05);
+  transition: all 0.4s;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.split-card:hover {
+  border-color: var(--primary);
+  background: rgba(249, 107, 9, 0.1);
+  transform: translateY(-4px);
+}
+
+.split-icon {
+  font-size: 36px;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.split-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.split-card p {
+  font-size: 14px;
+  color: var(--off);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.split-card ul {
+  list-style: none;
+}
+
+.split-card li {
+  padding: 0.6rem 0 0.6rem 1.5rem;
+  font-size: 13px;
+  color: var(--off);
+  position: relative;
+  line-height: 1.6;
+}
+
+.split-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* BENEFIT CARDS */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.benefit-card {
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.4s;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.benefit-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+}
+
+.benefit-icon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.benefit-card h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--off);
+}
+
+.benefit-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* PHASE CARDS */
+.phase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+
+.phase-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(249, 107, 9, 0.04);
+  transition: all 0.4s;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.phase-card:hover {
+  border-color: var(--primary);
+  background: rgba(249, 107, 9, 0.08);
+  transform: translateY(-2px);
+}
+
+.phase-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.phase-content h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--off);
+}
+
+.phase-content p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.phase-meta {
+  font-size: 11px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+/* TABLE */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.data-table th {
+  text-align: left;
+  padding: 1.2rem 1.5rem;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  background: rgba(249, 107, 9, 0.04);
+}
+
+.data-table td {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+  color: var(--off);
+}
+
+.data-table tr:hover { background: rgba(249, 107, 9, 0.02); }
+
+/* CTA BUTTON */
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--primary);
+  color: var(--black);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.cta-button:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(249, 107, 9, 0.4);
+}
+
+/* FOOTER */
+.footer {
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.footer-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.stat-box {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* PILL ROW */
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pill {
+  padding: 0.6rem 1.2rem;
+  background: rgba(249, 107, 9, 0.1);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--off);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.pill strong { color: var(--primary); margin-right: 0.5rem; }
+
+/* CLOSING */
+.closing {
+  text-align: center;
+  padding: 5rem 2rem;
+  position: relative;
+}
+
+.closing-quote {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(24px, 4vw, 48px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.closing-quote em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.closing-sub {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+/* DECORATIVE TEXT */
+.section-deco {
+  position: absolute;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(180px, 25vw, 320px);
+  color: rgba(249, 107, 9, 0.03);
+  z-index: 0;
+  top: 50%;
+  left: -5%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDE NAV -->
+<nav class="sidenav">
+  <a href="#hero" data-section="hero" class="active"><span>Inicio</span></a>
+  <a href="#problema" data-section="problema"><span>Problema</span></a>
+  <a href="#solucion" data-section="solucion"><span>Solución</span></a>
+  <a href="#beneficios" data-section="beneficios"><span>Beneficios</span></a>
+  <a href="#roadmap" data-section="roadmap"><span>Roadmap</span></a>
+  <a href="#cierre" data-section="cierre"><span>Cierre</span></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="eyebrow">Promointegra · B2B Commerce</div>
+  <h1 class="brand-mark">Promointegra</h1>
+  <div class="hero-tag">Máquina comercial B2B</div>
+  <p class="hero-statement">
+    La <em>única plataforma integral</em> que automatiza prospección, ventas y CRM para promocionales corporativos.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Fases</div>
+      <div class="meta-value">9 entregas</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-value">5 meses</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">ROI estimado</div>
+      <div class="meta-value">+500%</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Mercado</div>
+      <div class="meta-value">México + LATAM</div>
+    </div>
+  </div>
+  <div class="scroll-hint">Desliza para explorar ↓</div>
+</section>
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="section-num">01 — La oportunidad</div>
+  <h2 class="section-title">El mercado de <em>promocionales</em> no tiene sistema.</h2>
+  <p class="section-intro">
+    Cientos de empresas B2B compran promocionales corporativos cada año. Pero el proceso es manual, desorganizado, ineficiente. No existe CRM que entienda este mercado. No existe prospección automatizada. Todo es email y WhatsApp.
+  </p>
+
+  <div class="split-grid">
+    <div class="split-card">
+      <span class="split-icon">⚠️</span>
+      <h3>El problema hoy</h3>
+      <p>Las empresas pierden clientes y tiempo:</p>
+      <ul>
+        <li>Sin CRM especializado en B2B</li>
+        <li>Prospección manual + lenta</li>
+        <li>No hay seguimiento automático</li>
+        <li>Datos dispersos (múltiples sheets)</li>
+        <li>Sin pipeline visible</li>
+        <li>Pérdida de oportunidades</li>
+      </ul>
+    </div>
+    <div class="split-card">
+      <span class="split-icon">⚡</span>
+      <h3>Promointegra resuelve</h3>
+      <p>Una plataforma completa:</p>
+      <ul>
+        <li>CRM especializado para B2B</li>
+        <li>Prospección inteligente automatizada</li>
+        <li>Seguimiento visible en tiempo real</li>
+        <li>Base de datos centralizada</li>
+        <li>Dashboard de resultados</li>
+        <li>WhatsApp + IA integrada</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pill-row">
+    <div class="pill"><strong>Mercado:</strong> 150k+ empresas en LATAM</div>
+    <div class="pill"><strong>Oportunidad:</strong> $10M+ anuales</div>
+    <div class="pill"><strong>Actual:</strong> Herramientas fragmentadas</div>
+  </div>
+</section>
+
+<!-- SOLUCION -->
+<section id="solucion">
+  <div class="section-num">02 — La solución</div>
+  <h2 class="section-title">Una plataforma que <em>habla promocionales</em></h2>
+  <p class="section-intro">
+    Promointegra integra todo: prospección, CRM, WhatsApp, IA, dashboard, reportes. Diseñado específicamente para vendedores de promocionales que necesitan velocidad y precisión.
+  </p>
+
+  <div class="split-grid">
+    <div class="split-card">
+      <span class="split-icon">🔍</span>
+      <h3>Prospección inteligente</h3>
+      <p>IA identifica y contacta prospectos. Sin intervención humana.</p>
+      <ul>
+        <li>Scraping de bases de datos</li>
+        <li>Enriquecimiento de datos</li>
+        <li>Contacto automático por email/WhatsApp</li>
+        <li>Seguimiento inteligente</li>
+      </ul>
+    </div>
+    <div class="split-card">
+      <span class="split-icon">📊</span>
+      <h3>CRM + Dashboard</h3>
+      <p>Vista 360° del pipeline en tiempo real.</p>
+      <ul>
+        <li>Leads → Prospects → Clientes</li>
+        <li>Historiales completos</li>
+        <li>Tareas y recordatorios automáticos</li>
+        <li>KPIs al instante</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="split-grid">
+    <div class="split-card">
+      <span class="split-icon">💬</span>
+      <h3>WhatsApp + IA</h3>
+      <p>Comunicación inteligente 24/7.</p>
+      <ul>
+        <li>Respuestas automáticas con IA</li>
+        <li>Catálogo de productos en chat</li>
+        <li>Cotizaciones al instante</li>
+        <li>Escalonamiento a vendedor si es necesario</li>
+      </ul>
+    </div>
+    <div class="split-card">
+      <span class="split-icon">🎯</span>
+      <h3>Automatización</h3>
+      <p>Flujos que trabajan solos.</p>
+      <ul>
+        <li>Workflows customizados</li>
+        <li>Integración Pipedrive</li>
+        <li>Alertas y notificaciones</li>
+        <li>Reportes programados</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="section-num">03 — Beneficios e impacto</div>
+  <h2 class="section-title">Resultados medibles en <em>30 días</em></h2>
+  <p class="section-intro">
+    Prospectores reportan +300% más contactos, +150% más meetings, ciclos de venta 50% más cortos. La inversión se recupera en el primer mes.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num">+300%</div>
+      <div class="stat-label">Contactos / mes</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">+150%</div>
+      <div class="stat-label">Meetings</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">-50%</div>
+      <div class="stat-label">Ciclo de venta</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">+$25k</div>
+      <div class="stat-label">Revenue / mes</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk', sans-serif; font-size:22px; font-weight:600; margin:3rem 0 2rem; color:var(--off);">Capacidades por módulo</h3>
+
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <span class="benefit-icon">🤖</span>
+      <h4>Prospección con IA</h4>
+      <p>Claude + Pipedrive integrados. Identifica, contacta, da seguimiento sin que el vendedor haga nada.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">📱</span>
+      <h4>WhatsApp Bot</h4>
+      <p>IA responde preguntas, envía catálogo, cotiza productos. Escala a humano si es necesario.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">📊</span>
+      <h4>Dashboard en tiempo real</h4>
+      <p>Pipeline visual, KPIs, conversiones. Toma decisiones basada en datos, no en intuición.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">⚙️</span>
+      <h4>Automatización de flujos</h4>
+      <p>Leads → Prospects → Clientes → Retención. Sin intervención manual en cada etapa.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">📈</span>
+      <h4>Reportes y análisis</h4>
+      <p>Métricas que importan: win rate, ticket promedio, LTV. Mejora continua basada en datos.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">🔌</span>
+      <h4>Integraciones</h4>
+      <p>Pipedrive, WhatsApp, Zapier, Google Workspace. Tu stack de herramientas, unificado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-num">04 — 9 fases de desarrollo</div>
+  <h2 class="section-title">Entregables claros cada <em>2 semanas</em></h2>
+  <p class="section-intro">
+    Cada fase trae funcionalidad completa. El sistema crece de manera modular. Fase 1 es suficiente para empezar; cada fase siguiente añade poder.
+  </p>
+
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-num">1</div>
+      <div class="phase-content">
+        <h4>Setup + Prospección básica</h4>
+        <p>Infraestructura, BD, primer loop prospección automatizada. Ya puedes empezar a capturar leads.</p>
+        <div class="phase-meta">Semana 1-2</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">2</div>
+      <div class="phase-content">
+        <h4>CRM visual + Pipeline</h4>
+        <p>Dashboard con pipeline. Ves exactamente dónde está cada deal. Automatización de estados.</p>
+        <div class="phase-meta">Semana 3-4</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">3</div>
+      <div class="phase-content">
+        <h4>WhatsApp Bot + IA</h4>
+        <p>Respuestas inteligentes en WhatsApp. Cotizaciones, catálogo, preguntas. 24/7 automatizado.</p>
+        <div class="phase-meta">Semana 5-6</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">4</div>
+      <div class="phase-content">
+        <h4>Pipedrive + Integraciones</h4>
+        <p>Sincronización bidireccional con Pipedrive. Una verdad única para toda tu operación.</p>
+        <div class="phase-meta">Semana 7-8</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">5</div>
+      <div class="phase-content">
+        <h4>Reportes + KPIs</h4>
+        <p>Dashboard de métricas: win rate, conversión, LTV, ticket promedio. Análisis predecibles.</p>
+        <div class="phase-meta">Semana 9-10</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">6</div>
+      <div class="phase-content">
+        <h4>Flujos avanzados</h4>
+        <p>Workflows complejos. Lead → Prospect → Deal → Cliente → Retención. Sin humanos en el medio.</p>
+        <div class="phase-meta">Semana 11-12</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">7</div>
+      <div class="phase-content">
+        <h4>Email marketing + Drips</h4>
+        <p>Campaña automáticas basadas en comportamiento. Secuencias que convierten.</p>
+        <div class="phase-meta">Semana 13-14</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">8</div>
+      <div class="phase-content">
+        <h4>Escalabilidad + Performance</h4>
+        <p>Optimización para 10k+, 100k+ registros. Infraestructura que soporta crecimiento exponencial.</p>
+        <div class="phase-meta">Semana 15-16</div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">9</div>
+      <div class="phase-content">
+        <h4>Productización + Docs</h4>
+        <p>Release público. Documentación, onboarding, soporte. Listo para mercado.</p>
+        <div class="phase-meta">Semana 17-20</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section id="cierre" class="closing">
+  <div class="section-num">05 — Cierre</div>
+  <h2 class="closing-quote">
+    Promointegra es el <em>sistema operativo</em><br>
+    para vendedores B2B de promocionales.
+  </h2>
+  <p class="closing-sub">
+    Sin Promointegra: manual, lento, oportunidades perdidas.
+    Con Promointegra: automático, rápido, predecible, escalable.
+  </p>
+  <a href="mailto:contacto@somosgens.com" class="cta-button">Conversemos →</a>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">Promointegra</div>
+  <div>Plataforma B2B para promocionales corporativos</div>
+  <div style="margin-top:1rem;opacity:0.5;">Desarrollado por Sanru Developer · 2026</div>
+</div>
+
+<script>
+// Side nav active state on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidenav a');
+
+function updateActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= 200 && rect.bottom >= 200) {
+      current = section.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.dataset.section === current) {
+      link.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav);
+
+// Smooth scroll for nav links
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href');
+    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Scroll reveal animation
+const revealElements = document.querySelectorAll('.split-card, .benefit-card, .phase-card');
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+revealElements.forEach(el => {
+  el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  revealObserver.observe(el);
+});
+</script>
+
+</body>
+</html>
