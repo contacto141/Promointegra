@@ -33,7 +33,7 @@ export default function SolutionSection() {
             <div className="text-3xl mb-4">📊</div>
             <h3 className="text-xl font-bold text-gray-900 mb-3">Base de datos de calidad</h3>
             <p className="text-gray-700 mb-4">
-              150+ leads iniciales segmentados. Validados. Priorizados. Scoring automático. Alertas de leads "hot".
+              150+ leads iniciales segmentados. Validados. Priorizados. Scoring automático. Alertas de leads &quot;hot&quot;.
             </p>
             <ul className="text-sm text-gray-600 space-y-2">
               <li>✓ Prospección estratégica</li>
