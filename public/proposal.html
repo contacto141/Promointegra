@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanru Developer — Propuesta Promointegra</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #111111;
+  --dark: #0a0a0a;
+  --off: #f5f2ee;
+  --primary: #F96B09;
+  --primary-light: #ff8533;
+  --muted: #8a857f;
+  --muted-dark: #5a5550;
+  --green: #52b788;
+  --red: #c1121f;
+  --border: rgba(249, 107, 9, 0.2);
+  --border-strong: rgba(249, 107, 9, 0.4);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: var(--off);
+  overflow-x: hidden;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.sidenav {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.sidenav a {
+  width: 8px; height: 8px;
+  background: rgba(249, 107, 9, 0.3);
+  border-radius: 50%;
+  display: block;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+.sidenav a:hover { background: var(--primary); transform: scale(1.5); }
+.sidenav a.active { background: var(--primary); width: 8px; height: 24px; border-radius: 4px; }
+.sidenav a span {
+  position: absolute;
+  right: 20px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  background: var(--dark);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+}
+.sidenav a:hover span { opacity: 1; }
+
+@media (max-width: 900px) { .sidenav { display: none; } }
+
+section {
+  position: relative;
+  z-index: 2;
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) { section { padding: 4rem 1.25rem; } }
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 2rem;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 20%; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(249, 107, 9, 0.15), transparent 70%);
+  filter: blur(60px);
+  z-index: -1;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  width: 30px; height: 1px;
+  background: var(--primary);
+  display: inline-block;
+}
+
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-mark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 12vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero-tag {
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.hero-statement {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(18px, 2.5vw, 28px);
+  color: var(--off);
+  max-width: 700px;
+  line-height: 1.5;
+  margin-bottom: 3rem;
+  font-weight: 500;
+}
+
+.hero-statement em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+.section-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--primary);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: var(--off);
+}
+
+.section-title em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.section-intro {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 680px;
+  margin-bottom: 3rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+@media (max-width: 1024px) { .option-grid { grid-template-columns: 1fr; } }
+
+.option-card {
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(249, 107, 9, 0.04);
+  transition: all 0.4s;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.option-card:hover {
+  border-color: var(--primary);
+  background: rgba(249, 107, 9, 0.1);
+  transform: translateY(-4px);
+}
+
+.option-card.recommended {
+  border: 2px solid var(--primary);
+  background: rgba(249, 107, 9, 0.1);
+}
+
+.option-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: var(--black);
+  padding: 0.4rem 1.2rem;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.option-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--off);
+}
+
+.option-card p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(249, 107, 9, 0.1);
+  font-size: 13px;
+}
+
+.metric:last-child { border-bottom: none; }
+
+.metric-label { color: var(--muted); }
+.metric-value { color: var(--primary); font-weight: 600; }
+
+.pros-cons {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(249, 107, 9, 0.2);
+}
+
+.pros, .cons {
+  margin-bottom: 1rem;
+}
+
+.pros-label, .cons-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.pros-label { color: var(--green); }
+.cons-label { color: var(--red); }
+
+.pros-list, .cons-list {
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.pros-list li::before {
+  content: '✓ ';
+  color: var(--green);
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.cons-list li::before {
+  content: '✕ ';
+  color: var(--red);
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.table-wrapper {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.data-table th {
+  text-align: left;
+  padding: 1.2rem 1.5rem;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  background: rgba(249, 107, 9, 0.04);
+}
+
+.data-table td {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+  color: var(--off);
+}
+
+.data-table tr:hover { background: rgba(249, 107, 9, 0.02); }
+
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--primary);
+  color: var(--black);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.cta-button:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(249, 107, 9, 0.4);
+}
+
+.closing {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.closing-quote {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(24px, 4vw, 48px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.closing-quote em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+.footer {
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.footer-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pill {
+  padding: 0.6rem 1.2rem;
+  background: rgba(249, 107, 9, 0.1);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--off);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.pill strong { color: var(--primary); margin-right: 0.5rem; }
+
+.service-box {
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.01);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.service-box h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+}
+
+.service-box p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.gold-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--primary);
+  margin: 2rem 0;
+}
+</style>
+</head>
+<body>
+
+<nav class="sidenav">
+  <a href="#hero" data-section="hero" class="active"><span>Inicio</span></a>
+  <a href="#servicios" data-section="servicios"><span>Servicios</span></a>
+  <a href="#opciones" data-section="opciones"><span>Opciones</span></a>
+  <a href="#roadmap" data-section="roadmap"><span>Roadmap</span></a>
+  <a href="#inversion" data-section="inversion"><span>Inversión</span></a>
+  <a href="#cierre" data-section="cierre"><span>Cierre</span></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="logo">SANRU DEVELOPER</div>
+  <div class="eyebrow">Propuesta Estratégica</div>
+  <h1 class="brand-mark">Promointegra</h1>
+  <div class="hero-tag">Sistema integral de automatización B2B</div>
+  <p class="hero-statement">
+    De <em>boca en boca</em> a <em>máquina comercial</em>. Prospección + CRM + IA + Landing + Remarketing en 3 meses.
+  </p>
+  <div class="scroll-hint">Desliza para ver la propuesta ↓</div>
+</section>
+
+<!-- SERVICIOS SANRU -->
+<section id="servicios">
+  <div class="section-num">01 — Servicios incluidos</div>
+  <h2 class="section-title">Stack integral de <em>Sanru Developer</em></h2>
+  <p class="section-intro">
+    No es solo software. Es un sistema operativo para Promointegra que automatiza prospección, conversión y retención.
+  </p>
+
+  <div class="service-box">
+    <h4>🔍 Prospección inteligente con IA</h4>
+    <p>Apollo.io + enriquecimiento Claude. Scraping de 250M+ contactos B2B, lead scoring automático, importación a CRM.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>📊 CRM especializado para B2B</h4>
+    <p>Pipedrive con campos customizados para promocionales. Pipeline visible, automatizaciones, integraciones ilimitadas.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>💬 WhatsApp Bot + IA 24/7</h4>
+    <p>Twilio + Claude. Respuestas inteligentes, catálogo compartido, cotizaciones personalizadas, sin intervención humana.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>🎯 Landing page para oferta de valor</h4>
+    <p>Diseño premium (Sanru branding), SEO optimizado para tráfico orgánico, integración con CRM, base para Google Ads futuro.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>📦 Catálogo dinámico "Hits del Mes"</h4>
+    <p>Productos trending actualizados automáticamente. Recomendaciones personalizadas por cliente, integración WhatsApp/Email.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>📊 Radar de tendencias + Top hits mercado</h4>
+    <p>IA monitorea competencia en tiempo real. Alertas de qué vende (y a qué precio), tendencias de mercado, oportunidades.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>⚙️ Orquestación con Make.com</h4>
+    <p>Flujos visuales sin código. Prospectos → CRM → Secuencias → Remarketing. Todo automático, sin humanos.</p>
+  </div>
+
+  <div class="service-box">
+    <h4>📧 Email + Remarketing para clientes existentes</h4>
+    <p>Importación de clientes actuales, segmentación inteligente, secuencias de re-engagement, upsell automático.</p>
+  </div>
+</section>
+
+<!-- 3 OPCIONES -->
+<section id="opciones">
+  <div class="section-num">02 — 3 opciones de stack</div>
+  <h2 class="section-title">Elige el plan <em>perfecto</em> para ti</h2>
+  <p class="section-intro">
+    Cada opción es viable. Varía en costo, complejidad y capacidades. Recomendamos Opción 3 para máximo ROI.
+  </p>
+
+  <div class="option-grid">
+    <!-- OPCIÓN 1 -->
+    <div class="option-card">
+      <h3>Opción 1: Premium</h3>
+      <p>Stack nativo especializado</p>
+
+      <div class="metric">
+        <span class="metric-label">Costo/mes:</span>
+        <span class="metric-value">$633 USD</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Complejidad:</span>
+        <span class="metric-value">Alta</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">IA Claude:</span>
+        <span class="metric-value">✅✅✅</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Escalabilidad:</span>
+        <span class="metric-value">✅✅✅</span>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">
+          <div class="pros-label">Pros</div>
+          <ul class="pros-list">
+            <li>Máximo control + customización</li>
+            <li>APIs robustas, integrable todo</li>
+            <li>Mejor para escala 10k+</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <div class="cons-label">Contras</div>
+          <ul class="cons-list">
+            <li>Costo más alto inicialmente</li>
+            <li>Curva aprendizaje steep</li>
+            <li>Requiere integrador</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPCIÓN 2 -->
+    <div class="option-card">
+      <h3>Opción 2: MVP Barato</h3>
+      <p>Máximo costo 0, con compromiso</p>
+
+      <div class="metric">
+        <span class="metric-label">Costo/mes:</span>
+        <span class="metric-value">$420 USD</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Complejidad:</span>
+        <span class="metric-value">Muy alta</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">IA Claude:</span>
+        <span class="metric-value">⚠️ Parcial</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Escalabilidad:</span>
+        <span class="metric-value">⚠️ Limitada</span>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">
+          <div class="pros-label">Pros</div>
+          <ul class="pros-list">
+            <li>Presupuesto mínimo</li>
+            <li>Sin vendor lock-in</li>
+            <li>Comunidad open source</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <div class="cons-label">Contras</div>
+          <ul class="cons-list">
+            <li>Lead gen manual (lento)</li>
+            <li>Límites severos en free tiers</li>
+            <li>Prospección difícil (LinkedIn solo)</li>
+            <li>Self-hosted = tech overhead</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPCIÓN 3 RECOMENDADA -->
+    <div class="option-card recommended">
+      <div class="option-badge">⭐ Recomendado</div>
+      <h3>Opción 3: Híbrido Óptimo</h3>
+      <p>Balance perfecto costo-beneficio</p>
+
+      <div class="metric">
+        <span class="metric-label">Costo/mes:</span>
+        <span class="metric-value">$593 USD</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Complejidad:</span>
+        <span class="metric-value">Media (no-code)</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">IA Claude:</span>
+        <span class="metric-value">✅✅✅</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Escalabilidad:</span>
+        <span class="metric-value">✅✅✅</span>
+      </div>
+
+      <div class="pros-cons">
+        <div class="pros">
+          <div class="pros-label">Pros</div>
+          <ul class="pros-list">
+            <li>Todas capacidades Sanru</li>
+            <li>Costo controlado</li>
+            <li>No-code visual (Make.com)</li>
+            <li>Claude + Radar IA</li>
+            <li>ROI 50x+ en 3 meses</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <div class="cons-label">Contras</div>
+          <ul class="cons-list">
+            <li>Aún requiere setup inicial</li>
+            <li>Make tiene aprendizaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-num">03 — Roadmap 3 meses</div>
+  <h2 class="section-title">Entregas cada <em>2 semanas</em></h2>
+  <p class="section-intro">
+    Cada fase trae funcionalidad completa. Promointegra puede empezar a vender desde Fase 1.
+  </p>
+
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Fase</th>
+          <th>Timeline</th>
+          <th>Objetivo</th>
+          <th>Entregables</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>FASE 1</strong></td>
+          <td>Sem 1-4</td>
+          <td>Setup + Clientes existentes</td>
+          <td>CRM con 100% clientes, primeras secuencias activas, landing live</td>
+        </tr>
+        <tr>
+          <td><strong>FASE 2</strong></td>
+          <td>Sem 5-8</td>
+          <td>IA + Automatización</td>
+          <td>200+ nuevos leads, 10+ demos agendadas, bot WhatsApp activo</td>
+        </tr>
+        <tr>
+          <td><strong>FASE 3</strong></td>
+          <td>Sem 9-12</td>
+          <td>Optimización + Escala</td>
+          <td>1,000+ leads en sistema, 50+ demos, 15+ deals, sistema autónomo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk', sans-serif; font-size:22px; font-weight:600; margin:3rem 0 1.5rem; color:var(--off);">KPIs esperados</h3>
+  <div class="pill-row">
+    <div class="pill"><strong>Fase 1:</strong> CRM operacional, clientes importados</div>
+    <div class="pill"><strong>Fase 2:</strong> 5%+ conversion rate, 40%+ WhatsApp reply</div>
+    <div class="pill"><strong>Fase 3:</strong> 15+ deals, CAC <$9, LTV >$10k</div>
+  </div>
+</section>
+
+<!-- INVERSIÓN -->
+<section id="inversion">
+  <div class="section-num">04 — Inversión & ROI</div>
+  <h2 class="section-title">Números que <em>hablan</em></h2>
+  <p class="section-intro">
+    Opción 3 (recomendada): $1,797 USD en 3 meses. ROI esperado: 50x+ si cierras deals.
+  </p>
+
+  <h3 style="font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:600; margin:2rem 0 1rem; color:var(--off);">Desglose Opción 3 (3 meses)</h3>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Herramienta</th>
+          <th>Función</th>
+          <th>Mes 1-3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Apollo.io</td>
+          <td>Lead Gen (250M+ contactos B2B)</td>
+          <td>$357</td>
+        </tr>
+        <tr>
+          <td>Pipedrive</td>
+          <td>CRM especializado</td>
+          <td>$297</td>
+        </tr>
+        <tr>
+          <td>Make.com</td>
+          <td>Orquestación (flujos visuales)</td>
+          <td>$225</td>
+        </tr>
+        <tr>
+          <td>Twilio/Wati</td>
+          <td>WhatsApp + Bot</td>
+          <td>$240</td>
+        </tr>
+        <tr>
+          <td>Claude API</td>
+          <td>IA (scoring, personalization, Radar)</td>
+          <td>$600</td>
+        </tr>
+        <tr>
+          <td>Vercel</td>
+          <td>Landing + Catálogo</td>
+          <td>$60</td>
+        </tr>
+        <tr>
+          <td>Google Workspace</td>
+          <td>Email + Calendar</td>
+          <td>$18</td>
+        </tr>
+        <tr style="background: rgba(249, 107, 9, 0.1);">
+          <td><strong>TOTAL 3 MESES</strong></td>
+          <td></td>
+          <td><strong>$1,797 USD</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Promedio/mes</strong></td>
+          <td></td>
+          <td><strong>$599 USD</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:600; margin:2rem 0 1rem; color:var(--off);">ROI Esperado (Conservador)</h3>
+  <div class="pill-row">
+    <div class="pill"><strong>50 demos</strong> agendadas (via leads + clientes)</div>
+    <div class="pill"><strong>15 deals</strong> cerrados @ $5k promedio = $75k</div>
+    <div class="pill"><strong>+$20k</strong> clientes re-engagement</div>
+    <div class="pill"><strong>$95k revenue</strong> vs $1.8k inversión</div>
+    <div class="pill"><strong>50x ROI</strong> en 3 meses</div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section id="cierre" class="closing">
+  <div class="section-num">05 — Cierre</div>
+  <h2 class="closing-quote">
+    De <em>boca en boca</em> a <em>máquina comercial.</em><br>
+    En 3 meses.
+  </h2>
+  <p style="font-size:15px; color:var(--muted); max-width:600px; margin:1.5rem auto 2.5rem; line-height:1.7;">
+    Sanru Developer te entrega el stack, la estrategia y la ejecución. Promointegra operas sin intervención humana, escalas sin complejidad, vende 24/7.
+  </p>
+  <a href="mailto:contacto@somosgens.com?subject=Propuesta%20Promointegra%20-%20Comenzar%20FASE%201" class="cta-button">Aprobemos y empezamos →</a>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">SANRU DEVELOPER</div>
+  <div>Propuesta Promointegra · Junio 2026</div>
+  <div style="margin-top:1rem;opacity:0.5;">Stack integral de automatización B2B</div>
+</div>
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidenav a');
+
+function updateActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= 200 && rect.bottom >= 200) {
+      current = section.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.dataset.section === current) {
+      link.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav);
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href');
+    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+const revealElements = document.querySelectorAll('.option-card, .service-box');
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+revealElements.forEach(el => {
+  el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  revealObserver.observe(el);
+});
+</script>
+
+</body>
+</html>
